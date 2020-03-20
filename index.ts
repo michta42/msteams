@@ -66,6 +66,7 @@ const TeamArchive = "archive"; //  "com.k2.microsoft.teams.team.archive";
 const TeamUnarchive = "unarchive"; //  "com.k2.microsoft.teams.team.unarchive";
 const TeamCheckStatus = "checkStatus"; //  "com.k2.microsoft.teams.team.checkstatus";
 const TeamAddMember = "addMember"; //  "com.k2.microsoft.teams.team.addmember";
+const TeamRemoveMember = "removeMember"; // new
 const TeamUpdate = "update"; //  "com.k2.microsoft.teams.team.update";
 const TeamClone = "clone"; //  "com.k2.microsoft.teams.team.clone";
 const TeamAddOwner = "addowner"; //  "com.k2.microsoft.teams.team.addowner";
@@ -135,15 +136,15 @@ const TabDelete = "delete"; //  "com.k2.microsoft.teams.tab.delete";
 const TabUpdate = "update"; //  "com.k2.microsoft.teams.tab.update";
 
 //
-// Apps
-const AppsId = "id"; //  "com.k2.microsoft.teams.apps.id";
-const AppsTeamId = "teamId"; //  "com.k2.microsoft.teams.apps.teamid";
-const AppsDisplayName = "displayName"; //  "com.k2.microsoft.teams.apps.displayname";
-const AppsVersion = "version"; //  "com.k2.microsoft.teams.apps.version";
-const AppsTeamAppDefinitionId = "teamsAppDefinitionId"; //  "com.k2.microsoft.teams.apps.teamsappdefinitionid";
-const AppsTeamsAppId = "teamsAppId"; //  "com.k2.microsoft.teams.apps.teamsappid";
+// App
+const AppId = "id"; //  "com.k2.microsoft.teams.apps.id";
+const AppTeamId = "teamId"; //  "com.k2.microsoft.teams.apps.teamid";
+const AppDisplayName = "displayName"; //  "com.k2.microsoft.teams.apps.displayname";
+const AppVersion = "version"; //  "com.k2.microsoft.teams.apps.version";
+const AppTeamAppDefinitionId = "teamsAppDefinitionId"; //  "com.k2.microsoft.teams.apps.teamsappdefinitionid";
+const AppTeamsAppId = "teamsAppId"; //  "com.k2.microsoft.teams.apps.teamsappid";
 
-const AppsList = "list"; //  "com.k2.microsoft.teams.apps.list";
+const AppList = "list"; //  "com.k2.microsoft.teams.apps.list";
 
 //K2 Required
 ondescribe = function() {
@@ -302,6 +303,7 @@ ondescribe = function() {
                 methods: {
                     [TeamGet]: {
                         displayName: "Get",
+                        description: "Retrieves the details of a Team",
                         type: "read",
                         inputs: [TeamId],
                         requiredInputs: [TeamId],
@@ -319,7 +321,7 @@ ondescribe = function() {
                     },
                     [TeamCreate]: {
                         displayName: "Create",
-                        description: "Creates a new group and adds a team to the group",
+                        description: "Creates a Team",
                         type: "create",
                         inputs: [
                             TeamDisplayName,
@@ -342,8 +344,8 @@ ondescribe = function() {
                         ]
                     },
                     [TeamAdd]: {
-                        displayName: "Add a team to Existing Group",
-                        description: "Add a team to an already existing AAD Group",
+                        displayName: "Add",
+                        description: "Adds a Team to an existing group",
                         type: "create",
                         inputs: [TeamId,
                             TeamUserPrincipalName
@@ -361,7 +363,7 @@ ondescribe = function() {
                     },
                     [TeamArchive]: {
                         displayName: "Archive",
-                        description: "Archive Team",
+                        description: "Archives a Team",
                         type: "execute",
                         inputs: [TeamId],
                         requiredInputs: [TeamId],
@@ -372,7 +374,7 @@ ondescribe = function() {
                     },
                     [TeamUnarchive]: {
                         displayName: "Unarchive",
-                        description: "Unarchive Team",
+                        description: "Unarchives a Team",
                         type: "execute",
                         inputs: [TeamId],
                         requiredInputs: [TeamId],
@@ -382,8 +384,8 @@ ondescribe = function() {
                         ]
                     },
                     [TeamCheckStatus]: {
-                        displayName: "Check Archival Status",
-                        description: "Check the stauts of an archival job.",
+                        displayName: "Check Status",
+                        description: "Check the status of an Archive job.",
                         type: "execute",
                         parameters: {
                             [TeamArchiveOperationUrl]: {
@@ -405,7 +407,7 @@ ondescribe = function() {
                     },
                     [TeamAddMember]: {
                         displayName: "Add Member",
-                        description: "Add member to a team/group",
+                        description: "Adds a member to a Team",
                         type: "create",
                         inputs: [TeamId,
                             TeamUserPrincipalName
@@ -414,6 +416,22 @@ ondescribe = function() {
                             TeamUserPrincipalName
                         ],
                         outputs: [TeamIsSuccessful
+                        ]
+                    },
+                    [TeamRemoveMember]: { // TODO
+                        displayName: "Remove Member",
+                        description: "Removes a member from a Team",
+                        type: "delete",
+                        inputs: [
+                            TeamId,
+                            TeamUserPrincipalName // TODO maybe id ?
+                        ],
+                        requiredInputs: [
+                            TeamId,
+                            TeamUserPrincipalName // TODO maybe id ?
+                        ],
+                        outputs: [
+                            TeamIsSuccessful
                         ]
                     },
                     [TeamUpdate]: {
@@ -442,7 +460,7 @@ ondescribe = function() {
                         ]
                     },
                     [TeamClone]: {
-                        displayName: "Clone",
+                        displayName: "Copy/Clone",
                         description: "Makes a copy of an existing Team",
                         type: "create",
                         inputs: [TeamId,
@@ -462,7 +480,7 @@ ondescribe = function() {
                     },
                     [TeamAddOwner]: {
                         displayName: "Add Owner",
-                        description: "Add owner to a team/group",
+                        description: "Adds an Owner to a Team",
                         type: "execute",
                         parameters: {
                             [TeamAddAsMemberAlso]: {
@@ -480,8 +498,8 @@ ondescribe = function() {
                         ]
                     },
                     [TeamList]: {
-                        displayName: "List all teams/groups",
-                        description: "List all teams/groups",
+                        displayName: "List",
+                        description: "Lists all the Teams",
                         type: "list",
                         parameters: {
                             [TeamDisplayNameStartsWith]: {
@@ -495,8 +513,8 @@ ondescribe = function() {
                         ]
                     },
                     [TeamMyTeamsList]: {
-                        displayName: "List my teams",
-                        description: "List my teams",
+                        displayName: "List My Teams",
+                        description: "Lists all my Teams",
                         type: "list",
                         outputs: [TeamId,
                             TeamDisplayName,
@@ -563,7 +581,8 @@ ondescribe = function() {
                 },
                 methods: {
                     [ChannelGet]: {
-                        displayName: "Get Channel",
+                        displayName: "Get",
+                        description: "Retrieves the details of an existing Channel",
                         type: "read",
                         inputs: [ChannelId,
                             ChannelTeamId
@@ -579,7 +598,8 @@ ondescribe = function() {
                         ]
                     },
                     [ChannelList]: {
-                        displayName: "List Channels",
+                        displayName: "List",
+                        description: "List the channels in a Team",
                         type: "list",
                         inputs: [ChannelTeamId],
                         requiredInputs: [ChannelTeamId],
@@ -590,7 +610,8 @@ ondescribe = function() {
                         ]
                     },
                     [ChannelCreate]: {
-                        displayName: "Create Channel",
+                        displayName: "Create",
+                        description: "Creates a new Channel",
                         type: "create",
                         inputs: [ChannelTeamId,
                             ChannelDisplayName,
@@ -608,7 +629,8 @@ ondescribe = function() {
                         ]
                     },
                     [ChannelDelete]: {
-                        displayName: "Delete Channel",
+                        displayName: "Delete",
+                        description: "Deletes a Channel",
                         type: "delete",
                         inputs: [ChannelId,
                             ChannelTeamId
@@ -620,7 +642,8 @@ ondescribe = function() {
                         ]
                     },
                     [ChannelUpdate]: {
-                        displayName: "Update Channel",
+                        displayName: "Update",
+                        description: "Updates a Channel",
                         type: "update",
                         inputs: [ChannelTeamId,
                             ChannelId,
@@ -634,7 +657,8 @@ ondescribe = function() {
                         outputs: [ChannelIsSuccessful]
                     },
                     [ChannelSendMessage]: {
-                        displayName: "Send Message to a channel",
+                        displayName: "Send Message",
+                        description: "Sens a message to a channel",
                         type: "create",
                         inputs: [ChannelTeamId,
                             ChannelId,
@@ -651,8 +675,8 @@ ondescribe = function() {
                 }
             },
             [Tab]: {
-                displayName: "Tabs",
-                description: "Tabs",
+                displayName: "Tab",
+                description: "Tab",
                 properties: {
                     [TabId]: {
                         displayName: "Tab Id",
@@ -732,7 +756,8 @@ ondescribe = function() {
                 },
                 methods: {
                     [TabGet]: {
-                        displayName: "Get tab",
+                        displayName: "Get",
+                        description: "Get the details of a Tab.",
                         type: "read",
                         inputs: [TabId,
                             TabTeamId,
@@ -757,7 +782,8 @@ ondescribe = function() {
                         ]
                     },
                     [TabList]: {
-                        displayName: "List tabs",
+                        displayName: "List",
+                        description: "List the Tabs",
                         type: "list",
                         inputs: [TabTeamId,
                             TabChannelId
@@ -1097,52 +1123,52 @@ ondescribe = function() {
                     },
                 }
             },
-            [Apps]: {
-                displayName: "Apps",
-                description: "Apps",
+            [App]: {
+                displayName: "App",
+                description: "App",
                 properties: {
-                    [AppsId]: {
+                    [AppId]: {
                         displayName: "App Id",
                         description: "App Id",
                         type: "string"
                     },
-                    [AppsTeamId]: {
+                    [AppTeamId]: {
                         displayName: "Team Id",
                         description: "Team Id",
                         type: "string"
                     },
-                    [AppsDisplayName]: {
+                    [AppDisplayName]: {
                         displayName: "App Display Name",
                         description: "App Display Name",
                         type: "string"
                     },
-                    [AppsVersion]: {
+                    [AppVersion]: {
                         displayName: "version",
                         description: "version",
                         type: "string"
                     },
-                    [AppsTeamAppDefinitionId]: {
+                    [AppTeamAppDefinitionId]: {
                         displayName: "Teams Apps Definition Id",
                         description: "Teams Apps Definition Id",
                         type: "string"
                     },
-                    [AppsTeamsAppId]: {
+                    [AppTeamsAppId]: {
                         displayName: "Teams Apps Id",
                         description: "Teams Apps Id",
                         type: "string"
                     }
                 },
                 methods: {
-                    [AppsList]: {
+                    [AppList]: {
                         displayName: "List installed apps",
                         type: "list",
-                        inputs: [AppsTeamId],
-                        requiredInputs: [AppsTeamId],
-                        outputs: [AppsId,
-                            AppsDisplayName,
-                            AppsVersion,
-                            AppsTeamAppDefinitionId,
-                            AppsTeamsAppId
+                        inputs: [AppTeamId],
+                        requiredInputs: [AppTeamId],
+                        outputs: [AppId,
+                            AppDisplayName,
+                            AppVersion,
+                            AppTeamAppDefinitionId,
+                            AppTeamsAppId
                         ]
                     }
                 }
@@ -1172,7 +1198,7 @@ onexecute = function (objectName, methodName, parameters, properties) {
 
 function onexecuteApp(methodName: string, parameters: SingleRecord, properties: SingleRecord) {
     switch (methodName) {
-        case AppsList:
+        case AppList:
             onexecuteInstalledAppsList(parameters, properties);
             break;
         default: throw new Error("The method " + methodName + " is not supported..");
@@ -1206,6 +1232,9 @@ function onexecuteTeam(methodName: string, parameters: SingleRecord, properties:
                 break;
             case TeamAddMember:
                 onexecuteTeamAddMember(parameters, properties);
+                break;
+            case TeamRemoveMember:
+                onexecuteTeamRemoveMember(parameters, properties);
                 break;
             case TeamClone:
                 onexecuteTeamClone(parameters, properties);
@@ -1324,8 +1353,6 @@ function onexecuteTeamGet(parameters: SingleRecord, properties: SingleRecord) {
             //Get Team Details By Group ID
             GetTeamDetailsByID(parameters, properties, function (c) {
                 parameters[TeamWeburl] = c.webUrl;
-                // console.log("hello new eroor...................");
-                // throw new Error("hello new eroor...................");
                 //Post Results
                 CreateAndReturnTeamObject(parameters, properties);
             });
@@ -1533,6 +1560,18 @@ function AddGroupMembers(parameters: SingleRecord, properties: SingleRecord, cb)
     });
     var url = baseUriEndpoint + "/groups/" + properties[TeamId] + "/members/$ref";
     ExecuteRequest(url, data, "POST", function (responseText) {
+        if (typeof cb === 'function')
+            cb(responseText);
+    });
+}
+
+// DELETE /groups/{id}/members/{id}/$ref
+function RemoveGroupMembers(parameters: SingleRecord, properties: SingleRecord, cb) {
+    // var data = JSON.stringify({
+    //     "@odata.id": baseUriEndpoint + "/directoryObjects/" + parameters[TeamUserId]
+    // });
+    var url = baseUriEndpoint + "/groups/" + properties[TeamId] + "/members/" + parameters[TeamUserId] + "/$ref";
+    ExecuteRequest(url, null, "DELETE", function (responseText) {
         if (typeof cb === 'function')
             cb(responseText);
     });
@@ -1772,6 +1811,21 @@ function onexecuteTeamAddMember(parameters: SingleRecord, properties: SingleReco
         parameters[TeamUserId] = b.id;
         AddGroupMembers(parameters, properties, function (c) {
             //ToDO - remove the if condition and handle in try catch block
+            if (c.responseText == null || c.responseText == "" || c.responseText == undefined || c.responseText == "undefined") {
+                postResult({
+                    [TeamIsSuccessful]: true
+                });
+            }
+        });
+    });
+}
+
+function onexecuteTeamRemoveMember(parameters: SingleRecord, properties: SingleRecord) {
+    GetUser(parameters, properties, function (b) {
+        parameters[TeamUserPrincipalName] = b.userPrincipalName;
+        parameters[TeamUserId] = b.id;
+        RemoveGroupMembers(parameters, properties, function (c) {
+
             if (c.responseText == null || c.responseText == "" || c.responseText == undefined || c.responseText == "undefined") {
                 postResult({
                     [TeamIsSuccessful]: true
@@ -2209,11 +2263,11 @@ function onexecuteInstalledAppsList(parameters: SingleRecord, properties: Single
     GetInstalledAppsList(parameters, properties, function (a) {
         postResult(a.value.map(x => {
             return {
-                [AppsId]: x.id,
-                [AppsDisplayName]: x.teamsAppDefinition.displayName,
-                [AppsVersion]: x.teamsAppDefinition.version,
-                [AppsTeamAppDefinitionId]: x.teamsAppDefinition.id,
-                [AppsTeamsAppId]: x.teamsAppDefinition.teamsAppId
+                [AppId]: x.id,
+                [AppDisplayName]: x.teamsAppDefinition.displayName,
+                [AppVersion]: x.teamsAppDefinition.version,
+                [AppTeamAppDefinitionId]: x.teamsAppDefinition.id,
+                [AppTeamsAppId]: x.teamsAppDefinition.teamsAppId
             };
         }));
     });
