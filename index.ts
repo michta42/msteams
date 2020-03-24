@@ -758,7 +758,7 @@ ondescribe = function() {
                 methods: {
                     [TabGet]: {
                         displayName: "Get",
-                        description: "Get the details of a Tab.",
+                        description: "Get the details of a tab.",
                         type: "read",
                         inputs: [TabId,
                             TabTeamId,
@@ -784,7 +784,7 @@ ondescribe = function() {
                     },
                     [TabList]: {
                         displayName: "List",
-                        description: "List the Tabs",
+                        description: "List tabs",
                         type: "list",
                         inputs: [TabTeamId,
                             TabChannelId
@@ -798,7 +798,7 @@ ondescribe = function() {
                         ]
                     },
                     [TabCreateWordTab]: {
-                        displayName: "Create MS Word tab",
+                        displayName: "Create Word tab",
                         type: "create",
                         inputs: [TabTeamId,
                             TabChannelId,
@@ -819,7 +819,7 @@ ondescribe = function() {
                         ]
                     },
                     [TabCreateExcelTab]: {
-                        displayName: "Create MS Excel tab",
+                        displayName: "Create Excel tab",
                         type: "create",
                         inputs: [TabTeamId,
                             TabChannelId,
@@ -840,7 +840,7 @@ ondescribe = function() {
                         ]
                     },
                     [TabCreatePowerpointTab]: {
-                        displayName: "Create MS Powerpoint tab",
+                        displayName: "Create Powerpoint tab",
                         type: "create",
                         inputs: [TabTeamId,
                             TabChannelId,
@@ -882,7 +882,7 @@ ondescribe = function() {
                         ]
                     },
                     [TabCreateOneNoteTab]: {
-                        displayName: "Create One Note tab",
+                        displayName: "Create OneNote tab",
                         type: "create",
                         inputs: [TabTeamId,
                             TabChannelId,
@@ -945,7 +945,7 @@ ondescribe = function() {
                         ]
                     },
                     [TabCreateMsFormsTab]: {
-                        displayName: "Create MS Forms tab",
+                        displayName: "Create Forms tab",
                         type: "create",
                         inputs: [TabTeamId,
                             TabChannelId,
@@ -966,7 +966,7 @@ ondescribe = function() {
                         ]
                     },
                     [TabCreateMsStreamTab]: {
-                        displayName: "Create MS Stream tab",
+                        displayName: "Create Stream tab",
                         type: "create",
                         inputs: [TabTeamId,
                             TabChannelId,
@@ -1050,7 +1050,7 @@ ondescribe = function() {
                         ]
                     },
                     [TabCreateDocumentLibraryTab]: {
-                        displayName: "Create Document Library tab",
+                        displayName: "Create Document tab",
                         type: "create",
                         inputs: [TabTeamId,
                             TabChannelId,
