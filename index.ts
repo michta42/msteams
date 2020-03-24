@@ -2,8 +2,8 @@ import '@k2oss/k2-broker-core';
 
 metadata = {
     systemName: "MSTeamsJSServiceProvider",
-    displayName: "MSTeamsJSServiceProvider",
-    description: "An example broker"
+    displayName: "Microsoft Teams JavaScript Service Provider",
+    description: "A service type for Microsoft Teams"
 };
 
 // Constants used in place of service keys.
@@ -18,7 +18,7 @@ const Teams = "teams"; // "com.k2.microsoft.teams";
 const Team = "team"; //  "com.k2.microsoft.teams.team";
 const Channel = "channel"; //  "com.k2.microsoft.teams.channel";
 const Tab = "tab"; //  "com.k2.microsoft.teams.tab";
-const Apps = "apps"; //  "com.k2.microsoft.teams.apps";
+const App = "app"; //  "com.k2.microsoft.teams.app";
 
 //
 // Team
@@ -124,9 +124,9 @@ const TabCreatePowerpointTab = "createPowerpointTab"; //  "com.k2.microsoft.team
 const TabCreatePdfTab = "createPdfTab"; //  "com.k2.microsoft.teams.tab.createpdftab";
 const TabCreateOneNoteTab = "createOneNoteTab"; //  "com.k2.microsoft.teams.tab.createonenotetab";
 const TabCreatePlannerTab = "createPlannerTab"; //  "com.k2.microsoft.teams.tab.createplannertab";
-const TabCreateSharePointTab = "creatSsharePointTab"; //  "com.k2.microsoft.teams.tab.createsharepointtab";
+const TabCreateSharePointTab = "createSharePointTab"; //  "com.k2.microsoft.teams.tab.createsharepointtab";
 const TabCreateMsFormsTab = "createMsFormsTab"; //  "com.k2.microsoft.teams.tab.createmsformstab";
-const TabCreateMsStreamTab = "createmsStreamTab"; //  "com.k2.microsoft.teams.tab.createmsstreamtab";
+const TabCreateMsStreamTab = "createStreamTab"; //  "com.k2.microsoft.teams.tab.createmsstreamtab";
 const TabCreateWebsiteTab = "createWebsiteTab"; //  "com.k2.microsoft.teams.tab.createwebsitetab";
 const TabCreateWikiTab = "createWikiTab"; //  "com.k2.microsoft.teams.tab.createwikitab";
 const TabCreatePowerBiTab = "createPowerBiTab"; //  "com.k2.microsoft.teams.tab.createpowerbitab";
@@ -494,7 +494,8 @@ ondescribe = function() {
                         requiredInputs: [TeamId,
                             TeamUserPrincipalName
                         ],
-                        outputs: [TeamIsSuccessful
+                        outputs: [
+                            TeamIsSuccessful
                         ]
                     },
                     [TeamList]: {
@@ -1148,13 +1149,13 @@ ondescribe = function() {
                         type: "string"
                     },
                     [AppTeamAppDefinitionId]: {
-                        displayName: "Teams Apps Definition Id",
-                        description: "Teams Apps Definition Id",
+                        displayName: "Teams App Definition Id",
+                        description: "Teams App Definition Id",
                         type: "string"
                     },
                     [AppTeamsAppId]: {
-                        displayName: "Teams Apps Id",
-                        description: "Teams Apps Id",
+                        displayName: "Teams App Id",
+                        description: "Teams App Id",
                         type: "string"
                     }
                 },
@@ -1189,7 +1190,7 @@ onexecute = function (objectName, methodName, parameters, properties) {
         case Tab:
             onexecuteTab(methodName, parameters, properties);
             break;
-        case Apps:
+        case App:
             onexecuteApp(methodName, parameters, properties);
             break;
         default: throw new Error("The object " + objectName + " is not supported.");
@@ -1199,7 +1200,7 @@ onexecute = function (objectName, methodName, parameters, properties) {
 function onexecuteApp(methodName: string, parameters: SingleRecord, properties: SingleRecord) {
     switch (methodName) {
         case AppList:
-            onexecuteInstalledAppsList(parameters, properties);
+            onexecuteInstalledAppList(parameters, properties);
             break;
         default: throw new Error("The method " + methodName + " is not supported..");
     }
@@ -2250,8 +2251,8 @@ function DeleteTab(parameters: SingleRecord, properties: SingleRecord, cb) {
 }
 
 
-function GetInstalledAppsList(parameters: SingleRecord, properties: SingleRecord, cb) {
-    var url = baseUriEndpoint + "/teams/" + properties[AppsTeamId] + "/installedApps?$expand=teamsAppDefinition";
+function GetInstalledAppList(parameters: SingleRecord, properties: SingleRecord, cb) {
+    var url = baseUriEndpoint + "/teams/" + properties[AppTeamId] + "/installedApps?$expand=teamsAppDefinition";
     ExecuteRequest(url, null, "GET", function (responseText) {
         if (typeof cb === 'function')
             cb(responseText);
@@ -2259,8 +2260,8 @@ function GetInstalledAppsList(parameters: SingleRecord, properties: SingleRecord
 }
 
 
-function onexecuteInstalledAppsList(parameters: SingleRecord, properties: SingleRecord) {
-    GetInstalledAppsList(parameters, properties, function (a) {
+function onexecuteInstalledAppList(parameters: SingleRecord, properties: SingleRecord) {
+    GetInstalledAppList(parameters, properties, function (a) {
         postResult(a.value.map(x => {
             return {
                 [AppId]: x.id,
