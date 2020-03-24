@@ -69,7 +69,7 @@ const TeamAddMember = "addMember"; //  "com.k2.microsoft.teams.team.addmember";
 const TeamRemoveMember = "removeMember"; // new
 const TeamUpdate = "update"; //  "com.k2.microsoft.teams.team.update";
 const TeamClone = "clone"; //  "com.k2.microsoft.teams.team.clone";
-const TeamAddOwner = "addowner"; //  "com.k2.microsoft.teams.team.addowner";
+const TeamAddOwner = "addOwner"; //  "com.k2.microsoft.teams.team.addowner";
 const TeamList = "list"; //  "com.k2.microsoft.teams.team.list";
 const TeamMyTeamsList = "myTeamsList"; //  "com.k2.microsoft.teams.team.myteamslist";
 
